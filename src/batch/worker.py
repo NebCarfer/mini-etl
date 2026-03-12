@@ -15,7 +15,7 @@ STAGING_FILE = os.path.join(Config.STAGING_PATH, "batch_input.jsonl")
 
 def read_staging():
     if not os.path.exists(STAGING_FILE):
-    return []
+        return []
 
     records = []
 
@@ -46,5 +46,5 @@ def run_batch_loop():
         transformed = transform(cleaned)
         send(transformed)
 
-if name == "main":
-run_batch_loop()
+if __name__ == "main":
+    run_batch_loop()

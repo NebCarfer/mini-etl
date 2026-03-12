@@ -8,6 +8,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/streaming /app/src/streaming
 COPY src/common /app/src/common
 
+ENV PYTHONPATH=/app/src
+
 WORKDIR /app/src/streaming
 
-CMD ["python"]
+# Ejecutar worker
+CMD ["python", "processor.py"]

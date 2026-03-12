@@ -103,9 +103,22 @@ Debería salir algo así como "Ran 3 tests in 0.000s OK"
 
 Con ```docker compose build```. Nos dirá que está construyendo las imágenes. (si salta permission denied es que hay que actualizar el wsl saliendo y entrando)
 
+#### 3.1.3 probamos el container del modelo
+
 Ponemos en terminal:
 
-```curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"value": 5}'```
+```
+docker compose run --rm model
+docker compose run --rm -p 8000:8000 model
+```
+y en otra terminal ejecuta: 
+```
+curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"value": 5}'
+```
+
+Y te debería salir {"result":6}
+
+#### 3.1.4 
 
 ### 3.2 Ahora lanzamos ya todo
 

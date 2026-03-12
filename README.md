@@ -125,7 +125,7 @@ http://localhost:1936
 
 # 5. Uso del sistema
 
-La interfaz permite introducir un número.
+La interfaz permite introducir un número. Las distintas configuraciones se pueden cambiar desde ```/app/src/common/config.py```
 
 Dependiendo del modo elegido:
 

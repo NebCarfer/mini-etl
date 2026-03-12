@@ -88,6 +88,27 @@ git config --global user.email "user@nebrija.es"
 
 # 3. Construir el entorno
 
+### 3.1 Probar que todo está en su sitio
+
+Este paso podéis saltarlo, pero es recomendable si algo os falla en los siguientes.
+
+#### 3.1.1 Testeo de python
+Vamos a ver primero que los tests funcionan correctamente con 
+
+```make test```
+
+Debería salir algo así como "Ran 3 tests in 0.000s OK"
+
+#### 3.1.2 lanzamos docker
+
+Con ```docker compose build```. Nos dirá que está construyendo las imágenes. (si salta permission denied es que hay que actualizar el wsl saliendo y entrando)
+
+Ponemos en terminal:
+
+```curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"value": 5}'```
+
+### 3.2 Ahora lanzamos ya todo
+
 Desde el terminal de VSCode:
 
 ```

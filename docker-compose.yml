@@ -19,7 +19,8 @@ services:
 
   frontend:
     build:
-      context: ./src/frontend
+      context: .
+      dockerfile: src/frontend/Dockerfile
     container_name: mini_etl_frontend
     ports:
       - "1936:1936"
@@ -28,7 +29,8 @@ services:
 
   batch-worker:
     build:
-      context: ./src/batch
+      context: .
+      dockerfile: src/batch/Dockerfile
     container_name: mini_etl_batch
     depends_on:
       - model
@@ -38,7 +40,8 @@ services:
 
   streaming-worker:
     build:
-      context: ./src/streaming
+      context: .
+      dockerfile: src/streaming/Dockerfile
     container_name: mini_etl_stream
     depends_on:
       - model

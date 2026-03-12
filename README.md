@@ -75,7 +75,12 @@ Clonar el repositorio:
 git clone <repo>
 ```
 
-Aunque es más sencillo abrir en VSCode:
+Aunque es más sencillo abrir en VSCode. En cualquier caso, poned vuestro nombre de usuario y correo con:
+
+```
+git config --global user.name "Nombre"
+git config --global user.email "user@nebrija.es"
+```
 
 ---
 

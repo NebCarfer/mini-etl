@@ -13,4 +13,4 @@ logs:
 	docker compose logs -f
 
 test:
-	python3 -m unittest discover -s src/tests
+	PYTHONPATH=$(PWD)/src python3 -m unittest discover -s src/tests

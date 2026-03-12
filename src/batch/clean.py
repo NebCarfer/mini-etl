@@ -3,17 +3,17 @@ from common.logger import get_logger
 logger = get_logger("batch.clean")
 
 def clean(records):
-"""
-Limpieza y validación de datos.
-"""
+    """
+    Limpieza y validación de datos.
+    """
 
-cleaned = []
+    cleaned = []
 
-for r in records:
-    try:
-        value = int(r["value"])
-        cleaned.append(value)
-    except Exception:
-        logger.warning(f"Invalid record skipped: {r}")
+    for r in records:
+        try:
+            value = int(r["value"])
+            cleaned.append(value)
+        except Exception:
+            logger.warning(f"Invalid record skipped: {r}")
 
-return cleaned
+    return cleaned

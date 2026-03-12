@@ -47,7 +47,7 @@ git --version
 
 Si no te sale, o te da error, ve a https://git-scm.com/downloads, instálalo y vuelve a probar.
 
-### 1.3. Docker Desktop
+### 1.3. Docker Desktop y make
 
 Lo mismo que antes:
 
@@ -55,6 +55,7 @@ Lo mismo que antes:
 docker --version
 
 docker compose version
+make --version
 ```
 
 Si no, en el mismo terminal,lanza lo siguiente (os pedirá la password de wsl):
@@ -63,6 +64,7 @@ curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 newgrp docker
 docker run hello-world
+sudo apt install make
 ```
 
 ---

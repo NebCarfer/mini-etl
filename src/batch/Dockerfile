@@ -6,8 +6,7 @@ WORKDIR /app
 COPY src/batch/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/batch /app/src/batch
-COPY src/common /app/src/common
+COPY src /app/src
 
 WORKDIR /app/src/batch
 

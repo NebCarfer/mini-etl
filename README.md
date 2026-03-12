@@ -99,11 +99,11 @@ Vamos a ver primero que los tests funcionan correctamente con
 
 Debería salir algo así como "Ran 3 tests in 0.000s OK"
 
-#### 3.1.2 lanzamos docker
+#### 3.1.2 Lanzamos docker
 
 Con ```docker compose build```. Nos dirá que está construyendo las imágenes. (si salta permission denied es que hay que actualizar el wsl saliendo y entrando)
 
-#### 3.1.3 probamos el container del modelo
+#### 3.1.3 Probamos el container del modelo
 
 Ponemos en terminal:
 
@@ -118,7 +118,17 @@ curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -
 
 Y te debería salir {"result":6}
 
-#### 3.1.4 
+Para el resto de modelos ya debería funcionar, pero podemos también
+
+#### 3.1.4 Probar el frontend
+Lanzamos en dos terminales distintas:
+
+```
+docker compose up frontend 
+curl http://localhost:1936
+```
+
+Si sale bien, podemos ir a http://localhost:1936 y ver la app
 
 ### 3.2 Ahora lanzamos ya todo
 
@@ -161,7 +171,7 @@ http://localhost:1936
 
 # 5. Uso del sistema
 
-La interfaz permite introducir un número. Las distintas configuraciones se pueden cambiar desde ```/app/src/common/config.py```
+La interfaz permite introducir un número. Las distintas configuraciones se pueden cambiar desde ```.env```
 
 Dependiendo del modo elegido:
 

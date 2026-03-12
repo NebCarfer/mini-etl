@@ -32,19 +32,19 @@ def run_batch_loop():
 
     while True:
 
-        time.sleep(Config.BATCH_INTERVAL)
-
         records = read_staging()
 
         if not records:
             logger.info("No records to process")
-            continue
+        else:
+            logger.info(f"Processing batch of {len(records)} records")
 
-        logger.info(f"Processing batch of {len(records)} records")
+            cleaned = clean(records)
+            transformed = transform(cleaned)
+            send(transformed)
 
-        cleaned = clean(records)
-        transformed = transform(cleaned)
-        send(transformed)
+        time.sleep(Config.BATCH_INTERVAL)
 
-if __name__ == "main":
+
+if __name__ == "__main__":
     run_batch_loop()

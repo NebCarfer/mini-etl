@@ -18,5 +18,7 @@ class Config:
     # metadata
     METADATA_PATH = os.getenv("METADATA_PATH", "/app/src/metadata")
 
-    # modelo
+    # URLs
     MODEL_URL = os.getenv("MODEL_URL", "http://model:8000/predict")
+    BATCH_URL = os.getenv("BATCH_URL", "http://batch-worker:5000/submit")
+    STREAMING_URL = os.getenv("STREAMING_URL", "http://streaming-worker:5001/submit")

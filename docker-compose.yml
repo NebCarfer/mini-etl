@@ -24,6 +24,10 @@ services:
       - "1936:1936"
     depends_on:
       - model
+    env_file:
+      - .env
+    volumes:
+      - ./src/staging:/app/src/staging
 
   batch-worker:
     build:

@@ -57,9 +57,13 @@ docker --version
 docker compose version
 ```
 
-Si no, https://www.docker.com/products/docker-desktop/
-
-Si estos comandos funcionan, ya puedes ejecutar el proyecto.
+Si no, en el mismo terminal,lanza lo siguiente (os pedirá la password de wsl):
+```
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+newgrp docker
+docker run hello-world
+```
 
 ---
 
@@ -69,14 +73,9 @@ Clonar el repositorio:
 
 ```
 git clone <repo>
-cd mini-etl
 ```
 
-Abrir en VSCode:
-
-```
-code .
-```
+Aunque es más sencillo abrir en VSCode:
 
 ---
 

@@ -28,6 +28,7 @@ services:
       - .env
     volumes:
       - ./src/staging:/app/src/staging
+      - ./src/metadata:/app/src/metadata
 
   batch-worker:
     build:
@@ -47,3 +48,6 @@ services:
     container_name: mini_etl_stream
     depends_on:
       - model
+    volumes:
+      - ./src/staging:/app/src/staging
+      - ./src/metadata:/app/src/metadata

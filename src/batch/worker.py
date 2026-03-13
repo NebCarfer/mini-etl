@@ -21,9 +21,17 @@ def read_staging():
 
     with open(STAGING_FILE) as f:
         for line in f:
-            records.append(json.loads(line))
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                logger.warning(f"Skipping invalid line: {line}")
 
-    open(STAGING_FILE, "w").close()
+    # limpiar staging solo si había datos
+    if records:
+        open(STAGING_FILE, "w").close()
 
     return records
 
@@ -41,7 +49,7 @@ def run_batch_loop():
 
             cleaned = clean(records)
             transformed = transform(cleaned)
-            send(transformed)
+            send(transformed, inputs=[rec["value"] for rec in records])
 
         time.sleep(Config.BATCH_INTERVAL)
 

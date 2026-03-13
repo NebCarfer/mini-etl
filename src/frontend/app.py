@@ -7,17 +7,13 @@ import os
 import json
 
 logger = get_logger("frontend.app")
-
-app = Flask(__name__, template_folder="templates", static_folder="static")
-
 STAGING_FILE = "/app/src/staging/batch_input.jsonl"
 RESULTS_FILE = "/app/src/metadata/batch_results.jsonl"
 
+app = Flask(__name__, template_folder="templates", static_folder="static")
+
 
 def read_batch_results():
-    """
-    Lee los resultados procesados por el batch worker.
-    """
     if not os.path.exists(RESULTS_FILE):
         return []
 
@@ -26,22 +22,32 @@ def read_batch_results():
     try:
         with open(RESULTS_FILE) as f:
             for line in f:
-                results.append(json.loads(line))
+                line = line.strip()
+
+                if not line:
+                    continue
+
+                try:
+                    record = json.loads(line)
+                    results.append(record)
+                except json.JSONDecodeError:
+                    # ignorar líneas corruptas por escritura concurrente
+                    continue
+
     except Exception as e:
         logger.error(f"Error leyendo metadata: {e}")
+        return []
 
     return results
 
-
 @app.route("/", methods=["GET"])
 def index():
-    results = read_batch_results()
+
     return render_template(
         "index.html",
         input_value=None,
         output_value=None,
-        error=None,
-        results=results
+        error=None
     )
 
 
@@ -54,8 +60,7 @@ def submit():
             "index.html",
             input_value=None,
             output_value=None,
-            error="Por favor ingresa un número",
-            results=read_batch_results()
+            error="Por favor ingresa un número"
         ), 400
 
     try:
@@ -65,8 +70,7 @@ def submit():
             "index.html",
             input_value=value,
             output_value=None,
-            error="Debe ser un número entero",
-            results=read_batch_results()
+            error="Debe ser un número entero"
         ), 400
 
     try:
@@ -90,23 +94,29 @@ def submit():
             "index.html",
             input_value=x,
             output_value=None,
-            error=f"Error: {e}",
-            results=read_batch_results()
+            error=f"Error: {e}"
         ), 500
 
     return render_template(
         "index.html",
         input_value=x,
         output_value=result,
-        error=None,
-        results=read_batch_results()
+        error=None
     )
 
 
-# Redirigir cualquier GET a /submit hacia /
+# Redirigir GET a /submit hacia /
 @app.route("/submit", methods=["GET"])
 def submit_get():
     return redirect(url_for("index"))
+
+
+# Endpoint para traer resultados en JSON
+@app.route("/results", methods=["GET"])
+def get_results():
+    results = read_batch_results()[-100:]
+    results.reverse()
+    return {"results": results}
 
 
 if __name__ == "__main__":

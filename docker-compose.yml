@@ -51,3 +51,5 @@ services:
     volumes:
       - ./src/staging:/app/src/staging
       - ./src/metadata:/app/src/metadata
+    ports:
+      - "5001:5001"

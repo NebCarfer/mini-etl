@@ -23,31 +23,33 @@ def read_batch_results():
         with open(RESULTS_FILE) as f:
             for line in f:
                 line = line.strip()
-
                 if not line:
                     continue
-
                 try:
                     record = json.loads(line)
                     results.append(record)
                 except json.JSONDecodeError:
-                    # ignorar líneas corruptas por escritura concurrente
                     continue
-
     except Exception as e:
         logger.error(f"Error leyendo metadata: {e}")
         return []
 
     return results
 
+
 @app.route("/", methods=["GET"])
 def index():
-
+    results = []
+    if Config.MODE == "batch":
+        results = read_batch_results()[-100:]
+        results.reverse()
     return render_template(
         "index.html",
         input_value=None,
         output_value=None,
-        error=None
+        error=None,
+        mode=Config.MODE,
+        results=results
     )
 
 
@@ -56,21 +58,33 @@ def submit():
     value = request.form.get("number")
 
     if not value:
+        results = []
+        if Config.MODE == "batch":
+            results = read_batch_results()[-100:]
+            results.reverse()
         return render_template(
             "index.html",
             input_value=None,
             output_value=None,
-            error="Por favor ingresa un número"
+            error="Por favor ingresa un número",
+            mode=Config.MODE,
+            results=results
         ), 400
 
     try:
         x = int(value)
     except ValueError:
+        results = []
+        if Config.MODE == "batch":
+            results = read_batch_results()[-100:]
+            results.reverse()
         return render_template(
             "index.html",
             input_value=value,
             output_value=None,
-            error="Debe ser un número entero"
+            error="Debe ser un número entero",
+            mode=Config.MODE,
+            results=results
         ), 400
 
     try:
@@ -90,28 +104,39 @@ def submit():
 
     except Exception as e:
         logger.error(f"Error procesando número: {e}")
+        results = []
+        if Config.MODE == "batch":
+            results = read_batch_results()[-100:]
+            results.reverse()
         return render_template(
             "index.html",
             input_value=x,
             output_value=None,
-            error=f"Error: {e}"
+            error=f"Error: {e}",
+            mode=Config.MODE,
+            results=results
         ), 500
+
+    results = []
+    if Config.MODE == "batch":
+        results = read_batch_results()[-100:]
+        results.reverse()
 
     return render_template(
         "index.html",
         input_value=x,
         output_value=result,
-        error=None
+        error=None,
+        mode=Config.MODE,
+        results=results
     )
 
 
-# Redirigir GET a /submit hacia /
 @app.route("/submit", methods=["GET"])
 def submit_get():
     return redirect(url_for("index"))
 
 
-# Endpoint para traer resultados en JSON
 @app.route("/results", methods=["GET"])
 def get_results():
     results = read_batch_results()[-100:]

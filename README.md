@@ -146,6 +146,11 @@ Esto construirá los contenedores:
 - streaming worker
 - redis (broker)
 
+Los cuales podemos lanzar con ```docker compose up```, o hacer los dos pasos en uno solo con
+```
+docker compose up --build
+```
+
 ---
 
 # 4. Arrancar el sistema
